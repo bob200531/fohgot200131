@@ -10,7 +10,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.contrib.auth.models import User, Group
+from rest_framework.reverse import reverse
 
+#pygments
+from pygments.lexers import get_lexer_by_name
+from pygments.formatters.html import HtmlFormatter
+from pygments import highlight
+#auth
+from django.contrib.auth.models import User
 # Create your views here.
 
 
@@ -19,15 +26,20 @@ def games_list(request):
     serializers = GameSerializers(games_lst,many=True)
     data = serializers.data
     return JsonResponse(data,safe=False)
-
 class StudioListGeneric(generics.ListAPIView):
     queryset = Studio.objects.all()
     serializer_class = StudioSerializers
-
+class ViedoGameCreate(generics.CreateAPIView):
+    queryset = Games.objects.all()
+    serializer_class = GamesSerializerCreate
 
 class PlayerAPIGeneric(generics.ListAPIView):
     queryset = PlayerAPI.objects.all()
     serializer_class = PlayerAPISerializers
+class VideoDetail(generics.RetrieveDestroyAPIView):
+    queryset = Games.objects.all()
+    serializer_class = GameSerializers
+    lookup_field = 'id'
 
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by('-date_joined')
@@ -85,7 +97,21 @@ class GamesDetail(APIView):
         serializers = GameSerializers(videogame_lst)
         return Response(serializers.data)
 
+class UserListView(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializerInfo
+
+class UserDetail(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializerInfo
+
+    def perform_create(self,serializer):
+        serializer.save(name=self.request.user)
 
 
-
-
+# @api_view(['GET'])
+# def api_root(request, format=None):
+#     return Response({
+#         'users': reverse('user-list', request=request, format=format),
+#         'snippets': reverse('snippet-list', request=request, format=format)
+#     })

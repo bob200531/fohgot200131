@@ -19,6 +19,7 @@ from django.urls import path,include
 from games.views import *
 from rest_framework import routers
 
+
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'groups', GroupViewSet)
@@ -28,12 +29,17 @@ urlpatterns = [
     path('games-list/',games_list,name='games-list'),
     path('game-lst/',game_lst,name='games-list'),
     path('game-create/',GamesCrateMixin.as_view(),name='game-create'),
+    path('video-cretate/',ViedoGameCreate.as_view(),name='video-cretate/'),
+    path('videogame-destroy/<int:id>/',VideoDetail.as_view(),name='videogame-destroy'),
     path('snippets/', VideoGameList.as_view()),
     path('snippets/<int:pk>/', GamesDetail.as_view()),
     path('studio-list/',StudioListGeneric.as_view(),name='studio-list'),
     path('player-api/',PlayerAPIGeneric.as_view(),name='player-api'),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('user-list/',UserListView.as_view(),name='user-list'),
+    path('users-detail/<int:pk>/', UserDetail.as_view()),
+    path('api-auth/', include('rest_framework.urls')),
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)

@@ -5,6 +5,7 @@ from django.db import models
 class Games(models.Model):
     name = models.CharField(max_length=255)
     year = models.PositiveIntegerField()
+    studios = models.ManyToManyField('Studio')
 
     def __str__(self):
         return f"{self.name}"
@@ -25,4 +26,3 @@ class PlayerAPI(models.Model):
 
     def __str__(self):
         return f'{self.nameAPI}'
-

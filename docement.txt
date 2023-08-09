@@ -1,1 +1,5 @@
 https://www.django-rest-framework.org/tutorial/3-class-based-views/
+/api-auth/login/: Страница входа, где пользователи могут ввести свои учетные данные для входа в систему.
+/api-auth/logout/: Страница выхода из системы.
+/api-auth/password_change/: Страница изменения пароля.
+/api-auth/password_reset/: Страница сброса пароля.

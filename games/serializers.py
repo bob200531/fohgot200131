@@ -31,3 +31,18 @@ class GamesSerializerCreate(serializers.ModelSerializer):
     class Meta:
         model = Games
         fields = '__all__'
+
+
+class UserSerializerInfo(serializers.ModelSerializer):
+    name = GameSerializers(many=True, read_only=True)
+    # name = serializers.PrimaryKeyRelatedField(many=True,queryset=Games.objects.all())
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'name']
+        # fields = ['id', 'username', 'email']
+        # fields = ['username', 'email']
+        # fields = ['id', 'username', '']
+
+
+
