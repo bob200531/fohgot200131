@@ -3,3 +3,4 @@ https://www.django-rest-framework.org/tutorial/3-class-based-views/
 /api-auth/logout/: Страница выхода из системы.
 /api-auth/password_change/: Страница изменения пароля.
 /api-auth/password_reset/: Страница сброса пароля.
+poostman скачать

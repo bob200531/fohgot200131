@@ -3,6 +3,7 @@ from .models import *
 from .serializers import *
 from django.http.response import HttpResponse,JsonResponse
 from django.http import Http404
+
 from rest_framework import generics,viewsets,permissions,mixins
 from rest_framework import status
 from  rest_framework.decorators import api_view
@@ -33,6 +34,11 @@ class ViedoGameCreate(generics.CreateAPIView):
     queryset = Games.objects.all()
     serializer_class = GamesSerializerCreate
 
+class StudioGenericCreate(generics.ListCreateAPIView):
+    queryset = Games.objects.all()
+    serializer_class = GamesSerializerCreate
+
+#CreateAPIView
 class PlayerAPIGeneric(generics.ListAPIView):
     queryset = PlayerAPI.objects.all()
     serializer_class = PlayerAPISerializers
@@ -108,6 +114,13 @@ class UserDetail(generics.RetrieveAPIView):
     def perform_create(self,serializer):
         serializer.save(name=self.request.user)
 
+
+class MyModelCreateView(mixins.CreateModelMixin,generics.ListAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+
+    def post(self, request, *args, **kwargs): # создание формы
+        return self.create(request, *args, **kwargs)
 
 # @api_view(['GET'])
 # def api_root(request, format=None):

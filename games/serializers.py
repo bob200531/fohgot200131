@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Games,Studio,PlayerAPI
+from .models import Games,Studio,PlayerAPI,Genre
 from django.contrib.auth.models import User, Group
 
 class GameSerializers(serializers.ModelSerializer):
@@ -45,4 +45,7 @@ class UserSerializerInfo(serializers.ModelSerializer):
         # fields = ['id', 'username', '']
 
 
-
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = ['name']

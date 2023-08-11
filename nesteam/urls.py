@@ -34,12 +34,15 @@ urlpatterns = [
     path('snippets/', VideoGameList.as_view()),
     path('snippets/<int:pk>/', GamesDetail.as_view()),
     path('studio-list/',StudioListGeneric.as_view(),name='studio-list'),
+    path('studio-create/', StudioGenericCreate.as_view() ,name='studio-create',),
     path('player-api/',PlayerAPIGeneric.as_view(),name='player-api'),
     path('', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    path('user-list/',UserListView.as_view(),name='user-list'),
+    path('user-list/', UserListView.as_view(), name='user-list'),
     path('users-detail/<int:pk>/', UserDetail.as_view()),
     path('api-auth/', include('rest_framework.urls')),
+    path('users-manual/',include('userapp.urls')),
+    path('genre/',include('games.urls')),
 ]
 
 # urlpatterns = format_suffix_patterns(urlpatterns)

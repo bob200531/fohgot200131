@@ -5,3 +5,4 @@ from .models import *
 admin.site.register(Games)
 admin.site.register(Studio)
 admin.site.register(PlayerAPI)
+admin.site.register(Genre)
