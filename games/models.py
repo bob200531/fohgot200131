@@ -32,3 +32,15 @@ class Genre(models.Model):
     name = models.CharField(max_length=100)
     def __str__(self):
         return f"{self.name}"
+    
+
+class GameCollection(models.Model):
+    name =  models.CharField(max_length=100)
+    decription =  models.TextField()
+    game = models.ManyToManyField(Games,related_name='Коллекция')
+
+    def __str__(self):
+        return f'{self.name}'
+        
+
+

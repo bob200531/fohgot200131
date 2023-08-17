@@ -4,7 +4,7 @@ from .serializers import *
 from django.http.response import HttpResponse,JsonResponse
 from django.http import Http404
 
-from rest_framework import generics,viewsets,permissions,mixins
+from rest_framework import generics,viewsets,permissions,mixins,filters
 from rest_framework import status
 from  rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -64,6 +64,10 @@ class GroupViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated]
 
 
+class GenreVieWSet(viewsets.ModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
+
 @api_view(['GET', 'POST'])
 def game_lst(request):
     if request.method == 'GET':
@@ -121,9 +125,24 @@ class MyModelCreateView(mixins.CreateModelMixin,generics.ListAPIView):
 
     def post(self, request, *args, **kwargs): # создание формы
         return self.create(request, *args, **kwargs)
+class MyModelUpdateView(mixins.UpdateModelMixin,generics.RetrieveAPIView):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
 
-# @api_view(['GET'])
-# def api_root(request, format=None):
+    def put(self, request, *args, **kwargs):# изменение
+        return self.update(request, *args, **kwargs)
+    
+class GameCollectionGenericFilters(generics.ListAPIView):
+    queryset = GameCollection.objects.all()
+    serializer_class = GameCollectionSerializers
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['name']
+    # filter_backends = [filters.GameCollectionGenericFilters]
+
+    
+
+#  @api_view(['GET'])
+#  def api_root(request, format=None):
 #     return Response({
 #         'users': reverse('user-list', request=request, format=format),
 #         'snippets': reverse('snippet-list', request=request, format=format)
