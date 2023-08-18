@@ -3,6 +3,7 @@ from .models import *
 from .serializers import *
 from django.http.response import HttpResponse,JsonResponse
 from django.http import Http404
+from django.db.models import Q
 
 from rest_framework import generics,viewsets,permissions,mixins,filters
 from rest_framework import status
@@ -12,7 +13,6 @@ from rest_framework.views import APIView
 from rest_framework.urlpatterns import format_suffix_patterns
 from django.contrib.auth.models import User, Group
 from rest_framework.reverse import reverse
-
 #pygments
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
@@ -20,6 +20,8 @@ from pygments import highlight
 #auth
 from django.contrib.auth.models import User
 # Create your views here.
+
+#Фильтрация по текущему пользователю
 
 
 def games_list(request):
@@ -139,6 +141,21 @@ class GameCollectionGenericFilters(generics.ListAPIView):
     search_fields = ['name']
     # filter_backends = [filters.GameCollectionGenericFilters]
 
+class GameSearch(generics.ListAPIView):
+     queryset = Games.objects.all()
+     serializer_class = GameSerializers
+     filter_backends = [filters.SearchFilter,filters.OrderingFilter]
+     search_fields = ['name','year',]
+     ordering_fields = ['name', 'year']
+     # поиск по со связью ключей
+     # почему жанр отрисовывается 
+
+    #  def get_queryset(self):
+    #       queryset = Games.objects.all()
+    #       search_query = self.request.query_params.get('search', None)
+    #       if search_query is not None:
+    #           queryset = queryset.filter((Q(name__icontains=search_query) | Q(genre__name__icontains=search_query)))
+    #       return queryset
     
 
 #  @api_view(['GET'])
@@ -147,3 +164,10 @@ class GameCollectionGenericFilters(generics.ListAPIView):
 #         'users': reverse('user-list', request=request, format=format),
 #         'snippets': reverse('snippet-list', request=request, format=format)
 #     })
+
+class PurchaseList(generics.ListAPIView):
+    serializer_class = Games
+
+    def get_queryset(self):
+        user = self.request.user
+        return Games.objects.filter(purchaser=user)

@@ -39,12 +39,22 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    # 'django_filters',
+    # 'django-filters',
 
     'userapp',
     'games',
 ]
 
 
+# REST_FRAMEWORK = {
+#     'DEFAULT_FILTER_BACKENDS': [
+#         'rest_framework_filters.backends.RestFrameworkFilterBackend',
+#     ],
+# }
+# REST_FRAMEWORK = {
+#     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+# }
 
 
 MIDDLEWARE = [

@@ -6,7 +6,12 @@ class Games(models.Model):
     name = models.CharField(max_length=255)
     year = models.PositiveIntegerField()
     studios = models.ManyToManyField('Studio')
-    genres = models.ManyToManyField('Genre')
+    genre = models.ForeignKey(
+        to='Genre',       
+        on_delete=models.SET_NULL,
+        null = True,
+        blank = False,
+        )
 
     def __str__(self):
         return f"{self.name}"
